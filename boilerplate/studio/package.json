@@ -1,0 +1,18 @@
+{
+  "name": "video-studio-scaffold",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Seed Remotion project for the video-producer distribution. programs.run bundles src/index.ts; the video MCP server renders through it. The full branded scene library (BrandedReel/*, CaptionedVideo/*) from the source skill is dropped in here for production fidelity.",
+  "scripts": {
+    "bundle": "remotion bundle src/index.ts out/bundle",
+    "render": "remotion render src/index.ts Reel out/reel.mp4"
+  },
+  "dependencies": {
+    "@remotion/bundler": "*",
+    "@remotion/cli": "*",
+    "react": "*",
+    "react-dom": "*",
+    "remotion": "*"
+  }
+}

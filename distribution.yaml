@@ -1,0 +1,52 @@
+name: video-producer
+version: 0.1.0
+description: "Личный видео-продюсер в Telegram: приём видео → нарезка long→Shorts 9:16, караоке-сабы, брендированные «разбор/досье» ролики, доставка файлом."
+hermes_requires: ">=0.12.0"
+
+# ── secrets the agent needs at runtime ──────────────────────────────────────
+# The LLM/image gateway creds (OPENAI_BASE_URL / OPENAI_API_KEY) and the pod's
+# own TELEGRAM_BOT_TOKEN are injected by the platform, so they are NOT listed
+# here. Only the genuinely optional author-supplied secret is declared.
+env_requires:
+  - name: PEXELS_API_KEY
+    description: "Optional. Enables stock-photo inserts via search_stock; without it the agent generates inserts with gpt-image-2 instead."
+    required: false
+
+# ── what this distribution owns (overwritten on every `profile install`/update)
+# User data (workspace outputs, memories, sessions, .env) is never in this list,
+# so an update is safe by construction.
+distribution_owned:
+  - SOUL.md
+  - skills/
+  - mcp.json
+
+# ── programs ── heavy, video-specific runtime deps. GATED: installed only with
+# `--with-programs` (or HERMES_PROFILE_WITH_PROGRAMS=1). Base tooling
+# (node, python3, headless chromium, ffmpeg) already ships in the agent image —
+# only the extras are listed here. Replaces the old AGENT_PROGRAMS env JSON.
+programs:
+  pip:
+    - openai-whisper          # karaoke captions: RU word-timestamped transcription (pulls torch — heavy)
+    - mediapipe               # face/subject tracking for 9:16 reframing (face_crop track mode)
+    - opencv-python-headless  # frame ops for face_crop; headless/CPU wheel (clean in gVisor, no GUI libs)
+    - numpy
+    - "scenedetect[opencv]"   # optional: snap podcast cuts to visual scene boundaries
+  npm:
+    - "@modelcontextprotocol/sdk"  # the video MCP server's own runtime dep
+    - remotion                     # render engine for the vertical branded reel
+    - "@remotion/cli"              # provides `npx remotion bundle`
+    - "@remotion/bundler"
+    - react
+    - react-dom
+  # One build step, run after apt/pip/npm from the profile workspace. Bundles the
+  # Remotion studio project seeded by `boilerplate` below so the first render is fast.
+  run: "cd workspace/studio && npx remotion bundle src/index.ts out/bundle"
+
+# ── boilerplate ── seed-if-empty scaffold copied into the workspace ONCE. Here
+# it lays down the Remotion studio project the `run` step bundles and the video
+# MCP server renders through. `dir:` = a folder shipped inside THIS distribution
+# repo (see boilerplate/studio/). The agent's later edits are never clobbered.
+# Replaces the old AGENT_BOILERPLATE env JSON.
+boilerplate:
+  - into: workspace/studio
+    dir: boilerplate/studio
