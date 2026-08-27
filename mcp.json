@@ -2,8 +2,8 @@
   "mcp_servers": {
     "video": {
       "command": "node",
-      "args": ["${userHome}/.hermes/skills/video-studio/mcp-server.mjs"],
-      "cwd": "${userHome}/.hermes/skills/video-studio",
+      "args": ["${hermesHome}/skills/video-studio/mcp-server.mjs"],
+      "cwd": "${hermesHome}/skills/video-studio",
       "env": {
         "VIDEO_STUDIO_DIR": "${workspace}/studio",
         "LLM_BASE_URL": "${LLM_BASE_URL}",

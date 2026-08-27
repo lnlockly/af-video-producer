@@ -40,7 +40,7 @@ programs:
     - react-dom
   # One build step, run after apt/pip/npm from the profile workspace. Bundles the
   # Remotion studio project seeded by `boilerplate` below so the first render is fast.
-  run: "cd workspace/studio && npx remotion bundle src/index.ts out/bundle"
+  run: "(cd skills/video-studio && npm install --no-audit --no-fund --loglevel=error @modelcontextprotocol/sdk); (cd workspace/studio && npx remotion bundle src/index.ts out/bundle)"
 
 # ── boilerplate ── seed-if-empty scaffold copied into the workspace ONCE. Here
 # it lays down the Remotion studio project the `run` step bundles and the video
