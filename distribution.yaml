@@ -50,3 +50,31 @@ programs:
 boilerplate:
   - into: workspace/studio
     dir: boilerplate/studio
+
+# ── vitrine ── storefront card, synced to the CP catalog (GET /v1/templates).
+# OPAQUE to Hermes (ignored on install); the control-plane is the only reader.
+vitrine:
+  title: Видео-продюсер
+  tagline: "Присылай длинное видео — получу готовые Shorts с прожжёнными сабами."
+  icon: "🎬"
+  category: video
+  tier: premium
+  price: 1500
+  model: gpt-5.5
+  resources: { memMb: 8192, cpus: 4 }
+  onboarding:
+    greeting: |
+      Привет! 🎬 Я твой видео-продюсер. Кинь длинное видео или ссылку —
+      найду хайлайты, нарежу вертикальные Shorts 9:16, прожгу караоке-сабы
+      и верну готовые файлы. Скажи стиль (разбор / досье / красный) и хендл канала.
+    can_do:
+      - "Нарезка long→Shorts по хайлайтам"
+      - "Караоке-субтитры (whisper) в трёх стилях"
+      - "Вотермарка/хендл канала на каждом клипе"
+      - "Доставка файлом или публичной ссылкой"
+    examples:
+      - "сделай 5 шортсов-разборов из этого подкаста, хендл @mychannel"
+  config:
+    - { key: theme,     label: Стиль ролика,    type: select, options: [разбор, досье, красный], default: разбор }
+    - { key: handle,    label: Хендл канала,    type: text }
+    - { key: max_clips, label: Максимум клипов, type: number, default: 5 }
