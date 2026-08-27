@@ -1,5 +1,5 @@
 name: video-producer
-version: 0.1.0
+version: 0.1.1
 description: "Личный видео-продюсер в Telegram: приём видео → нарезка long→Shorts 9:16, караоке-сабы, брендированные «разбор/досье» ролики, доставка файлом."
 hermes_requires: ">=0.12.0"
 
