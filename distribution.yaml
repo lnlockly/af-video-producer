@@ -60,7 +60,7 @@ vitrine:
   category: video
   tier: premium
   price: 1500
-  model: gpt-5.5
+  model: auto-coding
   resources: { memMb: 8192, cpus: 4 }
   onboarding:
     greeting: |
